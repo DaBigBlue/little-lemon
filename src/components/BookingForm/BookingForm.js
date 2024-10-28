@@ -48,14 +48,14 @@ const BookingForm = ({ availableTimes, dispatch, onSubmit, setSelectedDate }) =>
     };
 
     return (
-        <div className="booking-form-container">
+        <div className="booking-form-container" role="form" aria-labelledby="booking-form-title">
             <h2 id="booking-form-title">Reserve a Table</h2>
             {submitted && (
                 <p role="status" aria-live="polite" className="success-message">
                     Reservation submitted successfully!
                 </p>
             )}
-            <form onSubmit={handleSubmit} aria-labelledby="booking-form-title" aria-describedby="form-instructions">
+            <form onSubmit={handleSubmit} aria-describedby="form-instructions">
                 {/* Form instructions */}
                 <p id="form-instructions" className="visually-hidden">
                     Complete this form to reserve a table. All fields are required.
@@ -79,7 +79,14 @@ const BookingForm = ({ availableTimes, dispatch, onSubmit, setSelectedDate }) =>
 
                 {/* Time Field */}
                 <label htmlFor="time">Time</label>
-                <select id="time" name="time" value={formData.time} onChange={handleChange} required>
+                <select
+                    id="time"
+                    name="time"
+                    value={formData.time}
+                    onChange={handleChange}
+                    aria-required="true"
+                    aria-describedby="time-description"
+                    required>
                     <option value="" disabled>Select a time</option>
                     {availableTimes?.map((time) => (
                         <option key={time} value={time}>{time}</option>

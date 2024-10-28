@@ -71,9 +71,11 @@ const BookingPage = () => {
 
                 <div className="slots-container">
                     {selectedDate && availableTimes[selectedDate]?.availableSlots.length > 0 && (
-                        <div className="available-slots-container">
+                        <div className="available-slots-container"
+                             aria-labelledby="available-slots-heading"
+                             role="list">
                             {/* Available and Booked Slots */}
-                            <h2>Available Slots for {selectedDate}</h2>
+                            <h2 id="available-slots-heading">Available Slots for {selectedDate}</h2>
                             {availableTimes[selectedDate]?.availableSlots.map((time) => (
                                 <BookingSlot key={time} time={time} available/>
                             ))}
@@ -81,8 +83,9 @@ const BookingPage = () => {
                     )}
 
                     {selectedDate && availableTimes[selectedDate]?.bookedSlots.length > 0 && (
-                        <div className="booked-slots-container">
-                            <h2>Booked Slots</h2>
+                        <div className="booked-slots-container" aria-labelledby="booked-slots-heading"
+                             role="list">
+                            <h2 id="booked-slots-heading">Booked Slots</h2>
                             {availableTimes[selectedDate].bookedSlots.map((time) => (
                                 <BookingSlot key={time} time={time} available={false}/>
                             ))}
