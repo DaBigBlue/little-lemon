@@ -1,0 +1,36 @@
+/* BookingSlot.css */
+
+.booking-slot {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 0.5rem 0;
+    font-family: 'Karla', sans-serif;
+}
+
+.available {
+    background-color: #e7f5e7;
+}
+
+.booked {
+    background-color: #f8e6e6;
+    color: #b23b3b;
+}
+
+.status {
+    font-size: 0.9rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+}
+
+.available-status {
+    color: #2e7d32;
+    background-color: #e8f5e9;
+}
+
+.booked-status {
+    color: #b23b3b;
+    background-color: #ffebee;
+}
