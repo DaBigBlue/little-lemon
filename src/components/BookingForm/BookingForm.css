@@ -1,60 +1,115 @@
 /* BookingForm.css */
+/* Define color variables based on the style guide */
+:root {
+    --primary-color: #495E57; /* Dark green */
+    --highlight-color: #F4CE14; /* Yellow */
+    --secondary-color: #EE9972; /* Peach */
+    --background-color: #EDEFEE; /* Light gray background */
+    --text-color: #333333; /* Dark gray text */
+    --font-display: 'Markazi Text', serif; /* Font for headings */
+    --font-body: 'Karla', sans-serif; /* Font for body text */
+}
 
 .booking-form-container {
-    max-width: 500px;
-    margin: 2rem auto;
-    padding: 1rem;
-    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    background-color: white;
     border-radius: 8px;
-    background-color: #f9f9f9;
-
-    h2 {
-        text-align: center;
-        color: #495E57; /* Dark green from the style guide */
-        font-family: 'Markazi Text', serif;
-        font-size: 32pt;
-    }
-
-    label {
-        display: block;
-        margin-top: 1rem;
-        font-family: 'Karla', sans-serif;
-        font-size: 16pt;
-        color: #333333;
-    }
-
-    input, select {
-        width: 95%;
-        padding: 0.5rem;
-        margin-top: 0.5rem;
-        font-size: 16pt;
-        font-family: 'Karla', sans-serif;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
+    max-width: 500px;
+    max-height: 500px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.submit-form-btn {
-    display: block;
-    width: 100%;
-    padding: 0.75rem;
-    margin-top: 1.5rem;
-    font-size: 18pt;
-    font-family: 'Karla', sans-serif;
-    color: white;
-    background-color: #495E57;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.submit-form-btn:hover {
-    background-color: #3a4c47;
-}
-
-.success-message {
-    color: #4CAF50;
-    font-family: 'Karla', sans-serif;
+.booking-form-container h2 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
     text-align: center;
-    margin-top: 1rem;
+}
+
+.booking-form-container form {
+    width: 100%;
+}
+
+label {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 5px;
+    display: block;
+}
+
+input[type="date"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--text-color);
+    border: 1px solid var(--secondary-light-color);
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input[type="date"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+select option {
+    font-family: var(--font-body);
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: #000;
+    background-color: var(--highlight-color);
+    border: 1px solid var(--highlight-color);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+    color: var(--highlight-color);
+    background-color: var(--primary-color);
+    border: 1px solid var(--highlight-color);
+}
+
+/* Accessibility Styles */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+p.error-message {
+    color: #d9534f; /* Red color for errors */
+    font-size: 0.8rem; /* Slightly smaller font size */
+    margin-top: 2px; /* Small spacing above error message */
+    margin-bottom: 0; /* Space below error message */
+    line-height: 1.4; /* Improves readability */
+
+}
+
+p.error-message::before {
+    content: "⚠️ "; /* Warning icon for emphasis */
+    font-size: 1rem;
 }

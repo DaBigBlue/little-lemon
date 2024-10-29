@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './BookingForm.css';
 
-const BookingForm = ({ availableTimes, dispatch, onSubmit, setSelectedDate }) => {
+const BookingForm = ({ availableTimes, dispatch, submitForm, selectedDate, setSelectedDate }) => {
     // State to hold form values
     const [formData, setFormData] = useState({
         date: '',
@@ -10,15 +10,24 @@ const BookingForm = ({ availableTimes, dispatch, onSubmit, setSelectedDate }) =>
         occasion: 'Birthday',
     });
 
+    // State to manage form errors and overall validity
+    const [errors, setErrors] = useState({});
+    const [isFormValid, setIsFormValid] = useState(false);
+
     useEffect(() => {
         setFormData({
-            ...formData,
+            date: selectedDate,
             time: availableTimes[0],
+            guests: 1,
+            occasion: 'Birthday',
         });
-    }, [availableTimes]);
+    }, [selectedDate, availableTimes]);
 
-    // State to handle form submission status
-    const [submitted, setSubmitted] = useState(false);
+    // Check if form is valid
+    useEffect(() => {
+        const formIsValid = formData.date && formData.time && formData.guests >= 1 && formData.guests <= 10;
+        setIsFormValid(formIsValid);
+    }, [formData]);
 
     // Handle change for all inputs
     const handleChange = (e) => {
@@ -27,6 +36,8 @@ const BookingForm = ({ availableTimes, dispatch, onSubmit, setSelectedDate }) =>
             ...formData,
             [name]: value,
         });
+
+        validateField(name, value); // Validate field on change
 
         // Update times when the date changes
         if (name === 'date') {
@@ -38,23 +49,35 @@ const BookingForm = ({ availableTimes, dispatch, onSubmit, setSelectedDate }) =>
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        setSubmitted(true);
-        console.log('Reservation submitted:', formData);
-
-        // Call onSubmit with the selected time
-        if (formData.time) {
-            onSubmit(formData.date, formData.time);
+        if (isFormValid) {
+            submitForm(formData);
+        } else {
+            alert('Please fill in all fields correctly.');
         }
+    };
+
+    // Field validation
+    const validateField = (name, value) => {
+        let message = '';
+
+        if (name === 'date') {
+            const today = new Date().toISOString().split('T')[0];
+            if (value < today) message = 'Date must be today or in the future.';
+        }
+
+        if (name === 'guests') {
+            if (value < 1 || value > 10) message = 'Guests must be between 1 and 10.';
+        }
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: message,
+        }));
     };
 
     return (
         <div className="booking-form-container" role="form" aria-labelledby="booking-form-title">
             <h2 id="booking-form-title">Reserve a Table</h2>
-            {submitted && (
-                <p role="status" aria-live="polite" className="success-message">
-                    Reservation submitted successfully!
-                </p>
-            )}
             <form onSubmit={handleSubmit} aria-describedby="form-instructions">
                 {/* Form instructions */}
                 <p id="form-instructions" className="visually-hidden">
@@ -72,10 +95,14 @@ const BookingForm = ({ availableTimes, dispatch, onSubmit, setSelectedDate }) =>
                     required
                     aria-required="true"
                     aria-describedby="date-description"
+                    min={new Date().toISOString().split('T')[0]} // Ensure the date is today or later
+                    style={{ marginBottom: errors.date ? '0px': '24px'}}
                 />
                 <span id="date-description" className="visually-hidden">
-          Select the date for your reservation.
-        </span>
+                    Select the date for your reservation.
+                </span>
+
+                {errors.date && <p className="error-message">{errors.date}</p>}
 
                 {/* Time Field */}
                 <label htmlFor="time">Time</label>
@@ -86,6 +113,7 @@ const BookingForm = ({ availableTimes, dispatch, onSubmit, setSelectedDate }) =>
                     onChange={handleChange}
                     aria-required="true"
                     aria-describedby="time-description"
+                    style={{ marginBottom: errors.time ? '0px': '24px'}}
                     required>
                     <option value="" disabled>Select a time</option>
                     {availableTimes?.map((time) => (
@@ -93,8 +121,8 @@ const BookingForm = ({ availableTimes, dispatch, onSubmit, setSelectedDate }) =>
                     ))}
                 </select>
                 <span id="time-description" className="visually-hidden">
-          Select the time for your reservation.
-        </span>
+                    Select the time for your reservation.
+                </span>
 
                 {/* Number of Guests Field */}
                 <label htmlFor="guests">Number of guests</label>
@@ -109,10 +137,13 @@ const BookingForm = ({ availableTimes, dispatch, onSubmit, setSelectedDate }) =>
                     required
                     aria-required="true"
                     aria-describedby="guests-description"
+                    style={{ marginBottom: errors.guests ? '0px': '24px'}}
                 />
                 <span id="guests-description" className="visually-hidden">
-          Enter the number of guests, between 1 and 10.
-        </span>
+                    Enter the number of guests, between 1 and 10.
+                </span>
+
+                {errors.guests && <p className="error-message">{errors.guests}</p>}
 
                 {/* Occasion Field */}
                 <label htmlFor="occasion">Occasion</label>
@@ -124,6 +155,7 @@ const BookingForm = ({ availableTimes, dispatch, onSubmit, setSelectedDate }) =>
                     required
                     aria-required="true"
                     aria-describedby="occasion-description"
+                    style={{ marginBottom: errors.occasion ? '0px': '24px'}}
                 >
                     <option value="Birthday">Birthday</option>
                     <option value="Anniversary">Anniversary</option>
@@ -134,7 +166,12 @@ const BookingForm = ({ availableTimes, dispatch, onSubmit, setSelectedDate }) =>
         </span>
 
                 {/* Submit Button */}
-                <button type="submit" className="submit-form-btn" aria-label="Submit Reservation">
+                {/* Disable if form is invalid */}
+                <button
+                    type="submit"
+                    className="submit-form-btn"
+                    aria-label="Submit Reservation"
+                    disabled={!isFormValid}>
                     Submit Reservation
                 </button>
             </form>

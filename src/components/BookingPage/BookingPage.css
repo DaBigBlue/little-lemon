@@ -1,27 +1,49 @@
-/* BookingPage.css */
+/* Define style guide color variables */
+:root {
+    --primary-color: #495E57; /* Dark green */
+    --highlight-color: #F4CE14; /* Yellow */
+    --secondary-color: #EE9972; /* Peach */
+    --secondary-light-color: #FBDABB; /* Light peach */
+    --background-color: #EDEFEE; /* Light gray background */
+    --text-color: #333333; /* Dark gray */
+    --font-display: 'Markazi Text', serif; /* Font for headings */
+    --font-body: 'Karla', sans-serif; /* Font for body text */
+}
 
 .booking-page-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: var(--background-color);
+    font-family: var(--font-body);
+    color: var(--text-color);
 }
 
 .booking-page-container h1 {
-    color: #495E57;
-    font-family: 'Markazi Text', serif;
-    font-size: 36pt;
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .booking-page-container p {
-    font-family: 'Karla', sans-serif;
-    color: #333333;
-    font-size: 16pt;
+    font-size: 1.125rem;
+    color: var(--text-color);
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 30px;
+    line-height: 1.5;
 }
 
 .two-row {
+    width: fit-content;
+    max-height: 666px;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr;
+    grid-template-rows: repeat(2, 1fr);
     grid-column-gap: 50px;
     grid-row-gap: 0px;
 }
@@ -34,4 +56,18 @@
     grid-area: 1 / 2 / 2 / 3;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: start;
+    padding: 20px;
 }
+
+#available-slots-heading, #booked-slots-heading {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    color: var(--primary-color);
+    margin: 0 0 15px;
+    text-align: center;
+}
+
+
